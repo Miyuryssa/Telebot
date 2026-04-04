@@ -1,7 +1,7 @@
 name: Telegram Reminder
 
 on:
-  workflow_dispatch:   # <--- ini supaya bisa run manual
+  workflow_dispatch:   # supaya bisa run manual
   schedule:
     - cron: '30 11 * * *'   # 18:30 WIB = 11:30 UTC
     - cron: '45 12 * * *'   # 19:45 WIB = 12:45 UTC
@@ -15,27 +15,27 @@ jobs:
       - name: Reminder 18:30
         if: github.event.schedule == '30 11 * * *'
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
+          curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.CHAT_ID }} \
           -d text="Blossoms! Jangan lupa ikut Kontes Bakat ya!! Login yuk!"
 
       - name: Reminder 19:45
         if: github.event.schedule == '45 12 * * *'
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
+          curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.CHAT_ID }} \
           -d text="Yuk cek Kontes sekarang dan klaim telur paskahnya!! Buruan keburu abis!"
 
       - name: Reminder 20:00
         if: github.event.schedule == '0 13 * * *'
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
+          curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.CHAT_ID }} \
           -d text="Blossoms! Jangan lupa serbu Kontes Bakat!"
 
       - name: Reminder 06:00
         if: github.event.schedule == '0 23 * * *'
         run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
+          curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.CHAT_ID }} \
           -d text="Pagi Blossoms! hari yang cerah, jangan lupa klaim harian!"
