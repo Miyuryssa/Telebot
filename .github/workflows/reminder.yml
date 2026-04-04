@@ -1,26 +1,16 @@
 name: Telegram Reminder
 
 on:
-  workflow_dispatch:
   schedule:
-    - cron: '30 11 * * *'   # 18:30 WIB
-    - cron: '45 12 * * *'   # 19:45 WIB
-    - cron: '0 13 * * *'    # 20:00 WIB
-    - cron: '0 23 * * *'    # 06:00 WIB
-    - cron: '40 14 * * *'   # 21:40 WIB
+    - cron: '30 11 * * *'   # 18:30 WIB = 11:30 UTC
+    - cron: '45 12 * * *'   # 19:45 WIB = 12:45 UTC
+    - cron: '0 15 * * *'    # 20:00 WIB = 13:00 UTC
+    - cron: '0 23 * * *'    # 06:00 WIB = 23:00 UTC (hari sebelumnya UTC)
 
 jobs:
   send:
     runs-on: ubuntu-latest
     steps:
-      - name: Manual test
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.CHAT_ID }} \
-          -d message_thread_id=14 \
-          -d text="Tes manual: workflow jalan!"
-
       - name: Reminder 18:30
         if: github.event.schedule == '30 11 * * *'
         run: |
@@ -38,12 +28,12 @@ jobs:
           -d text="Yuk cek Kontes sekarang dan klaim telur paskahnya!! Buruan keburu abis!"
 
       - name: Reminder 20:00
-        if: github.event.schedule == '0 13 * * *'
+        if: github.event.schedule == '0 15 * * *'
         run: |
           curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
           -d chat_id=${{ secrets.CHAT_ID }} \
           -d message_thread_id=14 \
-          -d text="Blossoms! Jangan lupa serbu Kontes Bakat!"
+          -d text="Blossoms!!"
 
       - name: Reminder 06:00
         if: github.event.schedule == '0 23 * * *'
@@ -52,11 +42,3 @@ jobs:
           -d chat_id=${{ secrets.CHAT_ID }} \
           -d message_thread_id=14 \
           -d text="Pagi Blossoms! hari yang cerah, jangan lupa klaim harian!"
-
-      - name: Reminder 21:40
-        if: github.event.schedule == '40 14 * * *'
-        run: |
-          curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.CHAT_ID }} \
-          -d message_thread_id=14 \
-          -d text="Halo Blossoms"
