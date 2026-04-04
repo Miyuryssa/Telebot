@@ -12,6 +12,15 @@ jobs:
   send:
     runs-on: ubuntu-latest
     steps:
+      # Step khusus untuk tes manual
+      - name: Manual test
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          curl -v -X POST https://api.telegram.org/bot${{ secrets.BOT_TOKEN }}/sendMessage \
+          -d chat_id=${{ secrets.CHAT_ID }} \
+          -d text="Tes manual: workflow jalan!"
+
+      # Step otomatis sesuai jadwal cron
       - name: Reminder 18:30
         if: github.event.schedule == '30 11 * * *'
         run: |
