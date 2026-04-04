@@ -1,8 +1,8 @@
 name: Telegram Reminder
 
 on:
+  workflow_dispatch:   # <--- ini supaya bisa run manual
   schedule:
-    # WIB = UTC+7, jadi jam harus dikonversi ke UTC
     - cron: '30 11 * * *'   # 18:30 WIB = 11:30 UTC
     - cron: '45 12 * * *'   # 19:45 WIB = 12:45 UTC
     - cron: '0 13 * * *'    # 20:00 WIB = 13:00 UTC
